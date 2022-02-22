@@ -1,0 +1,2 @@
+# Trangdocument
+My first repository.
