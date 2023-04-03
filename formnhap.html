@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form nhập</title>
+  <style type="text/css">
+  .musthave {
+    background-color: #00ffff ;
+    border: 1px solid gray;
+    width: 250px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+  .optional {
+    background-color: #f1f1f1 ;
+    border: 1px solid gray;
+    width: 250px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+  }
+  .newInfo {
+    margin-bottom: 10px;
+
+
+  }
+  label{
+    width: 150px;
+    display: inline-block;
+  }
+  button{
+  background-color: #0b7dda;
+  margin-top: 5px;
+
+ }
+  </style>
+</head>
+<body>
+  <form id="form1">
+    <div class="newInfo">
+      <label for="name"> Họ tên:</label>
+      <input type="text" name="name" id="name" class="musthave">
+      <span id="loiName" class="baoLoi"></span>
+    </div>
+    <div class="newInfo">
+      <label for="address">Địa chỉ:</label>
+      <input type="text" name="address" id="address" class="optional">
+    </div>
+    <div class="newInfo">
+      <label for="">Giới tính:</label>
+      <input type="radio" name="gender" value="male"> Nam
+      <input type="radio" name="gender" value="male"> Nữ
+    </div>
+    <div class="newInfo">
+      <label for="datebirth">Ngày sinh:</label>
+      <input type="text" name="datebirth" id="datebirth" placeholder="nn/tt/nnnn" class="musthave">
+      <span id="loiNgaySinh" class="baoLoi"></span>
+    </div>
+    <div class="newInfo">
+      <label for="email">E-mail:</label>
+      <input type="text" name="email" id="email" class="musthave">
+      <span id="loiEmail" class="baoLoi"></span>
+    </div>
+    <div class="newInfo">
+      <label for="sdt">Điện thoại:</label>
+      <input type="text" name="sdt" id="sdt" class="optional">
+    </div>
+    <div class="newInfo">
+      <label for="">Khóa đăng ký:</label>
+      <input type="checkbox" name="courses" value="en"> Tiếng anh
+      <input type="checkbox" name="courses" value="ad"> Quản trị
+      <input type="checkbox" name="courses" value="it"> CNTT
+    </div>
+    <div class="newInfo">
+      <label for="namesd">Tên sử dụng:</label>
+      <input type="text" name="namesd" id="namesd" class="musthave">
+      <span id="loiNamesd" class="baoloi"></span>
+    </div>
+    <div class="newInfo">
+      <label for="password">Mật khẩu:</label>
+      <input type="text" name="password" id="password" class="musthave">
+      <span id="loiPass" class="baoLoi"></span>
+    </div>
+    <div class="newInfo">
+      <label for="passwordt">Nhập lại mật khẩu:</label>
+      <input type="text" name="passwordt" id="passwordt" class="musthave">
+      <span id="loiPasst" class="baoLoi"></span>
+    </div>
+    <div class="newInfo">
+      <label for="ghichu">Ghi chú:</label>
+      <textarea id="ghichu" name="ghichu"></textarea>
+      <br>
+    </div>
+    <div>
+      <label for="">Ảnh chân dung:</label>
+      <input type="file" name="avatar" accept="image/*">
+    </div>
+    <div>
+      <label for=""></label>
+      <input id="accept" type="button" onclick="javascript:Chapnhan();" value="Chấp nhận"></button>
+      <input id="deny" type="button" onclick="javascript:Boqua();" value="Bỏ qua"></button>
+    </div>
+  </form>
+  <script type="text/javascript">
+    
+    document.getElementById('name').focus();
+    document.getElementById("form1").onkeypress = function(e){
+        if(e.keyCode == 13){
+            e.preventDefault();
+        }
+    };
+    document.getElementById('name').onblur = function(){
+        this.value=normalizeName(this.value);
+    };
+    document.getElementById('name').onkeyup = function(e){
+        if (window.event) e = window.event;
+        if(e.keyCode == 13){
+            document.getElementById('address').focus();
+        }
+    };
+    document.getElementById('datebirth').onkeyup = function(e){
+        if (window.event) e = window.event;
+        if(e.keyCode == 13){
+            document.getElementById('email').focus();
+        }
+    };
+    document.getElementById('email').onkeyup = function(e){
+        if (window.event) e = window.event;
+        if(e.keyCode == 13){
+            document.getElementById('sdt').focus();
+        }
+    };
+    document.getElementById('namesd').onkeyup = function(e){
+        if (window.event) e = window.event;
+        if(e.keyCode == 13){
+            document.getElementById('password').focus();
+        }
+    };
+    document.getElementById('password').onkeyup = function(e){
+        if (window.event) e = window.event;
+        if(e.keyCode == 13){
+            document.getElementById('passwordt').focus();
+        }
+    };
+    document.getElementById('passwordt').onkeyup = function(e){
+        if (window.event) e = window.event;
+        if(e.keyCode == 13){
+            document.getElementById('ghichu').focus();
+        }
+    };
+     document.getElementById("email").onblur =function() {
+        email = document.getElementById('email').value;
+        if(email === ""){
+            document.getElementById("mailerr").innerHTML ="Bạn chưa nhập email";
+        }else if (!checkEmail(email)){
+            document.getElementById("mailerr").innerHTML = "Email của bạn không hợp lệ, vui lòng kiểm tra lại!";
+        } else {
+            document.getElementById("mailler").innerHTML = " ";
+        }
+     };
+    function normalizeName(){
+        oldName = document.getElementById("name").value;
+        ss = oldName.split(" ");
+        newname = "";
+        for (i=0; i< ss.length; i++){
+          if(ss[i].length >0){
+            if(oldName.length >0) newname += " ";
+            newname += ss[i].substring(0,1).toUpperCase();
+            newname += ss[i].substring(1).toLowerCase();
+          }
+        }
+        return newname;
+    };
+    function Chapnhan() {
+            var okie = true; //chua co loi
+            //xoa cac thong bao loi
+            document.getElementById("loiName").innerHTML = "";
+            document.getElementById("loiNgaySinh").innerHTML = "";
+            document.getElementById("loiEmail").innerHTML = "";
+            document.getElementById("loiNamesd").innerHTML = "";
+            document.getElementById("loiPass").innerHTML = "";
+            document.getElementById("loiPasst").innerHTML = "";
+
+            //kiem tra cac truong bat buoc nhap
+            if (document.getElementById("password").value == "") {
+                document.getElementById("loiPass").innerHTML = "Quý vị chưa nhập mật khẩu";
+                document.getElementById("password").focus();
+                okie = false;
+            } else if (document.getElementById("passwordt").value == "") {
+                document.getElementById("loiPasst").innerHTML = "Quý vị chưa nhập lại mật khẩu";
+                document.getElementById("passwordt").focus();
+                okie = false;
+            } else if (document.getElementById("password").value != document.getElementById("passwordt").value) {
+                document.getElementById("loiPass").innerHTML = "Quý vị nhập mật khẩu không trùng nhau";
+                document.getElementById("passwordt").focus();
+                okie = false;
+            }
+
+            if (document.getElementById("namesd").value == "") {
+                document.getElementById("loiNamesd").innerHTML = " Quý vị chưa nhập tên sử dụng";
+                document.getElementById("namesd").focus();
+                okie = false;
+            } else if (!validUser(document.getElementById("namesd").value)) {
+                document.getElementById("loiNamesd").innerHTML = "Tên sử dụng không đúng";
+                document.getElementById("namesd").focus();
+                okie = false;
+            }
+
+            if (document.getElementById("email").value == "") {
+                document.getElementById("loiEmail").innerHTML = "Quý vị chưa nhập E-mail";
+                document.getElementById("email").focus();
+                okie = false;
+            } else if (!checkEmail(document.getElementById("email").value)) {
+                document.getElementById("loiEmail").innerHTML = "E-mail không đúng định dạng";
+                document.getElementById("email").focus();
+                okie = false;
+            }
+
+            if (document.getElementById("datebirth").value == "") {
+                document.getElementById("loiNgaySinh").innerHTML = "Quý vị chưa nhập ngày sinh";
+                document.getElementById("datebirth").focus();
+                okie = false;
+            } else if (!laNgayThang(document.getElementById("datebirth").value)) {
+                document.getElementById("loiNgaySinh").innerHTML = "Ngày sinh không đúng";
+                document.getElementById("datebirth").focus();
+                okie = false;
+            }
+
+
+            if (document.getElementById("name").value == "") {
+                document.getElementById("loiName").innerHTML = "Chưa nhập họ tên";
+                document.getElementById("name").focus();
+                okie = false;
+            }
+
+            //submit form
+            if (okie) document.getElementById("form1").submit();
+
+        }
+        function Boqua() {
+            document.location.href = "../";
+        }
+        function laNgayThang(d) { //d = nn/tt/nnnn
+            //kiem tra d co phai la ngay thang
+            //tach xau d boi dau /
+            s = d.split('/');
+
+            if (s.length != 3) return false; //phai co 3 phan
+            if (isNaN(s[0]) || isNaN(s[1]) || isNaN(s[2])) return false;//ca 3 la so
+
+            //chuyen thanh cac so nguyen
+            ngay = parseInt(s[0]);
+            thang = parseInt(s[1]);
+            nam = parseInt(s[2]);
+
+            //kiem tra
+            if (thang > 12 || thang < 1) return false;
+            if (thang == 1 || thang == 3 || thang == 5 || thang == 7 || thang == 8 || thang == 10 || thang == 12) {
+                if (ngay > 31) return false;
+            } else if (thang == 2) {
+                if (nam % 4 == 0 && nam % 100 != 0) {
+                    if (ngay > 29) return false;
+                } else if (ngay > 28) return false;
+            } else if (ngay > 30) return false;
+
+            if (ngay < 1) return false;
+
+            date = new Date();
+            if (nam > date.getFullYear() || nam < 1950) return false;
+
+            return true;
+        }
+        function checkEmail(email) {
+            return email.toLowerCase()
+                .match(
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                );
+        }
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <title>Table</title>
+  <meta charset="utf-8">
+  <style type="text/css">
+    #tbl {
+	border: solid 1px #000000;
+	border-collapse:collapse;
+}
+#tbl td, th {
+	border: solid 1px #000000;
+}
+#tbl thead {
+	background-color:#fc05a9;
+}
+#tbl tr.oddr {
+	background-color:#dfdfdf;
+}
+#tbl tr.evenr {
+	background-color:#f0f0f0;
+}
+#tbl tr.selectedr {background-color:yellow;}
+.nodisplay {display:none;}
+.group-op-container {height:30px;
+}
+</style>
+ </head>
+ <body>
+	<div class="group-op-container">
+			<button id="delBtn" class="group-op-delete">Xóa</button> 
+	</div>
+	<table id="tbl">
+		<thead>
+			<tr>
+				<th><input type="checkbox" id="chkall"/></th>
+				<th>Họ tên</th>
+				<th>Ngày sinh</th>
+				<th>Giới tính</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="oddr">
+				<td><input type="checkbox" name="chk"/></td>
+				<td>Hoàng Văn A</td>
+				<td>2/2/2002</td>
+				<td>Nam</td>
+			</tr>
+			<tr class="evenr">
+				<td><input type="checkbox" name="chk"/></td>
+				<td>Trần Thị B</td>
+				<td>1/1/2001</td>
+				<td>Nữ</td>
+			</tr>
+			<tr class="oddr">
+				<td><input type="checkbox" name="chk"/></td>
+				<td>Đào Xuân C</td>
+				<td>3/3/2003</td>
+				<td>Nam</td>
+			</tr>
+			<tr class="evenr">
+				<td><input type="checkbox" name="chk"/></td>
+				<td>Tống Minh D</td>
+				<td>1/1/2002</td>
+				<td>Nam</td>
+			</tr>
+			<tr class="oddr">
+				<td><input type="checkbox" name="chk"/></td>
+				<td>Nguyễn Trà E</td>
+				<td>3/6/2002</td>
+				<td>Nữ</td>
+			</tr>
+		</tbody>
+	</table>
+	<script type="text/javascript">
+        var chks = document.getElementsByName("chk");
+        var chkall = document.getElementById("chkall")
+        for(let i = 0; i< chks.length;i++){
+            chks[i].onchange = function(){
+                if(this.checked){
+                    this.parentNode.parentNode.style.backgroundColor= "yellow";
+                    let allCheck = true;
+                    for(let j = 0; j< chks.length; j++){
+                        if(!chks[i],checked){
+                            allCheck = false;
+                            break;
+                        }
+                    }
+                    if(allCheck){
+                        chkall.checked =true;
+                    }
+                    delBtn.style.display = "inline-block";
+                }
+                else {
+                    if(this.parentNode.parentNode.className ==="oddr"){
+                        this.parentNode.parentNode.style.backgroundColor= "#dfdfdf";
+                    }
+                    else{
+                    this.parentNode.parentNode.style.backgroundColor="#f0f0f0";
+                    }
+                    chkall.checked = false;
+                    let allUncheck = true;
+                    for(let j= 0; j<chks.length; j++){
+                        if(chks[j].checked){
+                            allUncheck =false;
+                            break;
+                        }
+                    }
+                    if(allUncheck){
+                        delBtn.style.display="none";
+                    }
+                }
+                
+            }
+        }
+        chkall.onchange = function(){
+            if(chkall.checked){
+                for(let i = 0; i< chks.length;i++){
+                    chks[i].checked = true;
+                    chks[i].parentNode.parentNode.style.backgroundColor= "yellow";
+                }
+                delBtn.style.display = "inline-block";
+            }
+            else {
+                for(let i = 0; i<chks.length;i++){
+                chks[i].checked = false;
+                if(this.parentNode.parentNode.className ==="oddr"){
+                    this.parentNode.parentNode.style.backgroundColor= "#dfdfdf";
+                }
+                else if(this.parentNode.parentNode.className ==="evenr"){
+                    this.parentNode.parentNode.style.backgroundColor="#f0f0f0";
+                }
+                
+            }
+        }
+    }
+    delBtn.onclick = function(){
+        for(let i = chks.length-1; i >= 0;i--){
+            if(chks[i].checked){
+                let tr = chks[i].parentNode.parentNode;
+                let tbody = tr.parentNode;
+                tbody.removeChild(tr);
+            }
+        }
+    }
+    for(let i = 0; i< chks.length;i++){
+            chks[i].onmouseover = function(){
+                
+            }
+    }
+
+    </script>
+ </body>
+</html>
